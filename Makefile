@@ -17,7 +17,7 @@
 # List of all class (model) sources used in the program,
 # separated by spaces. A backslash indicates continuation
 # on the next line
-CXXSRCS = BLFitModel.cxx ParameterFactory.cxx Parameter.cxx DataFactory.cxx EnergyResponse.cxx
+CXXSRCS = BLFitModel.cxx ParameterFactory.cxx Parameter.cxx DataFactory.cxx EnergyResponse.cxx Plot.cxx
 
 # List of all program sources used in the program,
 # separated by spaces. A backslash indicates continuation
