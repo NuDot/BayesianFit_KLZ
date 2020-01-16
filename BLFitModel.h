@@ -147,7 +147,7 @@ public:
 
     std::map<std::string, TH1D*> GetMCHist(std::vector<double>& pars, int rbin=99, int thetabin=-1);
 
-    std::map<std::string, TH1D*> GetMCHist_Isotope(std::vector<double>& pars, int rbin=99, int thetabin=-1);
+    std::map<std::string, TH1D*> GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate, int rbin, int thetabin);
 
     std::vector<double> GetInitialPosition() { return initialPosition; }
 
