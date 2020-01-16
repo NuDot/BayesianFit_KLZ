@@ -92,15 +92,6 @@ public:
                 scaleVector.push_back(energy_scale);
             }
         }
-        // std::vector<double> fitted_param;
-        // for (int j=0; j < fitParameterVec.size(); j++) {//Rate Parameter
-        //     if (fParameterInfoMap.find(fitParameterVec[j]) != fParameterInfoMap.end()) {
-        //         fitted_param.push_back(rate_scale);
-
-        //     }
-        // }
-        // for (int j=0; j < NofEResParam; j++) fitted_param.push_back(energy_scale);//Energy Scale
-        // fitted_param.push_back(energy_scale);//Scaling
         if (scaleVector.size() != GetNParameters()) {
             cerr<<"parameter size ("<< scaleVector.size()<<" , "<<GetNParameters()<<") does not agree!"<<endl;
             abort();
@@ -113,11 +104,12 @@ public:
         return param_id;
     }
 
+    int GetTotalBin() { return Data->GetFVParameter()->GetI("total_bin");}
+    int GetThetaBin() { return Data->GetFVParameter()->GetI("theta_bin");}
+
     ifstream readParameterFile();
 
     double Spectrum();
-
-    TH1D* GetDataHist(int rbin=30, int thetabin=-1);
 
     double Get0vbbCL() {
         if (fParameterInfoMap.find("Rate_Xe136_0nu_XeLS") == fParameterInfoMap.end()) return 0;
@@ -145,13 +137,16 @@ public:
         }
     }
 
-    std::map<std::string, TH1D*> GetMCHist(std::vector<double>& pars, int rbin=99, int thetabin=-1);
+    std::map<std::string, TH3D*> GetMCHist(std::vector<double>& pars);
 
-    std::map<std::string, TH1D*> GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate, int rbin, int thetabin);
+    std::map<std::string, TH3D*> GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate);
+
+    TH3D* GetDataHist();
 
     std::vector<double> GetInitialPosition() { return initialPosition; }
 
     void BuildParameterGraph();
+
 
 
 private:

@@ -59,7 +59,7 @@ void BLFitModel::StackingDataPoints(double ** _E_Mean, double ** _Data, double *
 }
 
 //This group up isotopes
-std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, int rbin, int thetabin) {
+std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars) {
     Parameter* currentEnergyResponse = ERes->setupEnergyResponse(fParameterInfoMap["energy_response_info"], pars);
     std::map<std::string, TH3D*> MCMap;
     // Int_t nbinx = 0;
@@ -114,7 +114,7 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
                 for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
                     int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
                     int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
-                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
+                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, MCMap[mapName]->GetBinContent(i+1, n1+1, n2+1) + ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
                 }
             }
         }
@@ -124,7 +124,7 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
 }
 
 //This displays every single isotope instead of grouping them up.
-std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate, int rbin, int thetabin) {
+std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate) {
 
 
     Parameter* currentEnergyResponse = ERes->setupEnergyResponse(fParameterInfoMap["energy_response_info"], pars);
@@ -153,7 +153,7 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
                 for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
                     int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
                     int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
-                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
+                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, MCMap[mapName]->GetBinContent(i+1, n1+1, n2+1) + ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
                 }
             }
         }
@@ -162,7 +162,7 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
     return MCMap;
 }
 
-TH3D* BLFitModel::GetDataHist(int rbin, int thetabin) {
+TH3D* BLFitModel::GetDataHist() {
     Int_t nbinx = 0;
     Double_t xbins[1000];
     for(int n=0; n<_NofEnergyBin; n++) {

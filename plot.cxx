@@ -10,6 +10,7 @@
 
 #include "BLFitModel.h"
 #include "THStack.h"
+#include "PlotFactory.h"
 
 int LINE_WIDTH=2;
 
@@ -29,7 +30,7 @@ int main()
     // create new BLFitModel object
     BLFitModel m("BLFit");
 
-    m.PrepareToContinueMarginalization("chain_long.root", "BLFit_mcmc", "BLFit_parameters", false, true);
+    m.PrepareToContinueMarginalization("chain.root", "BLFit_mcmc", "BLFit_parameters", false, true);
 
     double src[] = {2.1,109159,2413.51,1.99999,137.215,150.245,1242.57,24566.9,59474.2,1029.57,0.629182,0.8,0.722637,4.5,3.14471e-07,4.4455,0.000491212,7.21532,24.4762,15.7143,24.9963,15.8299,174.829,2.81805e-09,2650.04,2507.85,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0128184,2.9045,0.139891,0,4.5,188.924,11.3052,1366.44,2806.68,9663.37,12917.1,841.181,0.768671,3.4e+07,0.323,0.037,1.01568,0.289931,0.024997,1.01476,0.405408,0.0135369,1};
 
@@ -44,20 +45,17 @@ int main()
     investigate_bkg.push_back("Rate_U238_S2_film_0");
     investigate_bkg.push_back("Rate_U238_S2_film_1");
 
-    for (int i=0;i<20;i++) {
-        for(int j=0;j<2;j++) {
-            std::map<std::string, TH1D*> MCMap = m.GetMCHist_Isotope(paramVector,investigate_bkg, i,j);
 
-    PlotFactory * pf = new PlotFactory(m.GetDataHist(i,j), paramVector);
+    PlotFactory * pf = new PlotFactory(m.GetMCHist(paramVector), m.GetDataHist(), paramVector, m.GetTotalBin(), m.GetThetaBin());
 
     for (int i=4;i<=11;i++) {
         for(int j=-1;j<=1;j++) {
-            pf.PlotAll(m.GetMCHist(paramVector, i,j), i, j);
+            pf->PlotAll(i, j);
         }
     }
 
-    pf.PlotAll(m.GetMCHist(paramVector, 40, -1),40, -1);
-    pf.PlotROI(m.GetMCHist_Isotope(paramVector, 6, -1), 5, -1);
+    pf->PlotAll(40, -1);
+    pf->PlotROI(5, -1);
 
     std::vector<string> fitParamName = m.GetFittedRateParameter();
     for (int i=0;i<fitParamName.size();i++) {
