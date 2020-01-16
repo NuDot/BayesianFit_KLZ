@@ -59,20 +59,20 @@ void BLFitModel::StackingDataPoints(double ** _E_Mean, double ** _Data, double *
 }
 
 //This group up isotopes
-std::map<std::string, TH1D*> BLFitModel::GetMCHist(std::vector<double>& pars, int rbin, int thetabin) {
+std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, int rbin, int thetabin) {
     Parameter* currentEnergyResponse = ERes->setupEnergyResponse(fParameterInfoMap["energy_response_info"], pars);
-    std::map<std::string, TH1D*> MCMap;
-    Int_t nbinx = 0;
-    Double_t xbins[1000];
-    for(int n=0; n<_NofEnergyBin; n++) {
-        if(n+1==1000) {
-            cerr << "ERROR : xbins is out of range" << endl;
-            abort();
-        }
-        xbins[nbinx]   = _EnergyMin + _EnergyBinWidth * double(n+0.0);
-        xbins[nbinx+1] = _EnergyMin + _EnergyBinWidth * double(n+1.0);
-        nbinx++;
-    }
+    std::map<std::string, TH3D*> MCMap;
+    // Int_t nbinx = 0;
+    // Double_t xbins[1000];
+    // for(int n=0; n<_NofEnergyBin; n++) {
+    //     if(n+1==1000) {
+    //         cerr << "ERROR : xbins is out of range" << endl;
+    //         abort();
+    //     }
+    //     xbins[nbinx]   = _EnergyMin + _EnergyBinWidth * double(n+0.0);
+    //     xbins[nbinx+1] = _EnergyMin + _EnergyBinWidth * double(n+1.0);
+    //     nbinx++;
+    // }
     for (int j=0; j < fitParameterVec.size(); j++) {
         if (fParameterInfoMap.find(fitParameterVec[j]) != fParameterInfoMap.end()) {
             string histName = fitParameterVec[j];
@@ -105,25 +105,17 @@ std::map<std::string, TH1D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
                 mapName = "Other";
             }
             if (MCMap.find(mapName) == MCMap.end()) {
-                MCMap[mapName] = new TH1D(mapName.c_str(),"",nbinx, xbins);
-                for (int i = 0; i <= nbinx; ++i) MCMap[mapName]->SetBinContent(i, 0);
+                MCMap[mapName] = Data->GetEmptyHistogram();
             }
             for(int i=0; i<_NofEnergyBin; i++) {
-                double binvalue = 0.0;
                 double E_Mean  = _EnergyMin + _EnergyBinWidth * double(i+0.5);//Bin Center
                 double E_Lower = _EnergyMin + _EnergyBinWidth * double(i+0.0);//Bin Lower Edge
                 double E_Upper = _EnergyMin + _EnergyBinWidth * double(i+1.0);//Bin Upper Edge
                 for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
                     int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
                     int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
-                    //if(Data->GetRadiusBinInternal(n1)==1) {
-                    if(((thetabin==-1)||(n2==thetabin)) && (n1<rbin)) {
-                        binvalue += ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars);
-                    }
-                    //}
-                    //binvalue += Data->GetHistogramInterpolation(fParameterInfoMap[histName], E_Mean, n);
+                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
                 }
-                MCMap[mapName]->SetBinContent(i+1, MCMap[mapName]->GetBinContent(i+1) + binvalue);
             }
         }
     }
@@ -132,21 +124,11 @@ std::map<std::string, TH1D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
 }
 
 //This displays every single isotope instead of grouping them up.
-std::map<std::string, TH1D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, int rbin, int thetabin) {
+std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, int rbin, int thetabin) {
 
     Parameter* currentEnergyResponse = ERes->setupEnergyResponse(fParameterInfoMap["energy_response_info"], pars);
-    std::map<std::string, TH1D*> MCMap;
-    Int_t nbinx = 0;
-    Double_t xbins[1000];
-    for(int n=0; n<_NofEnergyBin; n++) {
-        if(n+1==1000) {
-            cerr << "ERROR : xbins is out of range" << endl;
-            abort();
-        }
-        xbins[nbinx]   = _EnergyMin + _EnergyBinWidth * double(n+0.0);
-        xbins[nbinx+1] = _EnergyMin + _EnergyBinWidth * double(n+1.0);
-        nbinx++;
-    }
+    std::map<std::string, TH3D*> MCMap;
+
     for (int j=0; j < fitParameterVec.size(); j++) {
         if (fParameterInfoMap.find(fitParameterVec[j]) != fParameterInfoMap.end()) {
             string histName = fitParameterVec[j];
@@ -158,25 +140,17 @@ std::map<std::string, TH1D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
             mapName.erase(mapName.find(rateString), rateString.length());
             mapName.erase(mapName.find(XeLSString), XeLSString.length());
             if (MCMap.find(mapName) == MCMap.end()) {
-                MCMap[mapName] = new TH1D(mapName.c_str(),"",nbinx, xbins);
-                for (int i = 0; i <= nbinx; ++i) MCMap[mapName]->SetBinContent(i, 0);
+                MCMap[mapName] = Data->GetEmptyHistogram();
             }
             for(int i=0; i<_NofEnergyBin; i++) {
-                double binvalue = 0.0;
                 double E_Mean  = _EnergyMin + _EnergyBinWidth * double(i+0.5);//Bin Center
                 double E_Lower = _EnergyMin + _EnergyBinWidth * double(i+0.0);//Bin Lower Edge
                 double E_Upper = _EnergyMin + _EnergyBinWidth * double(i+1.0);//Bin Upper Edge
                 for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
                     int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
                     int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
-                    //if(Data->GetRadiusBinInternal(n1)==1) {
-                    if(((thetabin==-1)||(n2==thetabin)) && (n1<rbin)) {
-                        binvalue += ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars);
-                    }
-                    //}
-                    //binvalue += Data->GetHistogramInterpolation(fParameterInfoMap[histName], E_Mean, n);
+                    MCMap[mapName]->SetBinContent(i+1, n1+1, n2+1, ERes->GetStackedHist(fParameterInfoMap[histName], currentEnergyResponse, histName, E_Mean, n, pars));
                 }
-                MCMap[mapName]->SetBinContent(i+1, MCMap[mapName]->GetBinContent(i+1) + binvalue);
             }
         }
     }
@@ -184,7 +158,7 @@ std::map<std::string, TH1D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
     return MCMap;
 }
 
-TH1D* BLFitModel::GetDataHist(int rbin, int thetabin) {
+TH3D* BLFitModel::GetDataHist(int rbin, int thetabin) {
     Int_t nbinx = 0;
     Double_t xbins[1000];
     for(int n=0; n<_NofEnergyBin; n++) {
@@ -196,24 +170,19 @@ TH1D* BLFitModel::GetDataHist(int rbin, int thetabin) {
         xbins[nbinx+1] = _EnergyMin + _EnergyBinWidth * double(n+1.0);
         nbinx++;
     }
-    TH1D* dataHist = new TH1D("h_data","",nbinx, xbins);
-    for (int i = 0; i <= nbinx; ++i) dataHist->SetBinContent(i, 0);
+    TH1D* dataHist = Data->GetEmptyHistogram("h_data");
     for(int i=0; i<_NofEnergyBin; i++) {
-        double binvalue = 0.0;
         for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
             int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
             int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
-            //if(Data->GetRadiusBinInternal(n1)==1) {
-            if(((thetabin==-1)||(n2==thetabin)) && (n1<rbin)) {
-                if (fakeData) {
-                    binvalue += _Data_fake[n][i];
-                } else{
-                    binvalue += _Data[n][i];
-                }
+            double binvalue = 0.0;
+            if (fakeData) {
+                binvalue += _Data_fake[n][i];
+            } else{
+                binvalue += _Data[n][i];
             }
-            //binvalue += _Data[n][i];
+            dataHist->SetBinContent(i+1, n1+1, n2+1, binvalue);
         }
-        dataHist->SetBinContent(i+1, binvalue);
     }
     return dataHist;
 }
