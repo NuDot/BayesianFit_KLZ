@@ -39,14 +39,16 @@ int main()
     }
     std::vector<double> paramVector = dest;
 
+    PlotFactory * pf = new PlotFactory(m.GetDataHist(i,j), paramVector);
+
     for (int i=4;i<=11;i++) {
         for(int j=-1;j<=1;j++) {
-            plot(m.GetMCHist(paramVector, i,j), m.GetDataHist(i,j), paramVector, i, j);
+            pf.PlotAll(m.GetMCHist(paramVector, i,j), i, j);
         }
     }
 
-    plot(m.GetMCHist(paramVector, 40, -1), m.GetDataHist(40, -1), paramVector, 40, -1);
-    plot_zoom(m.GetMCHist_Isotope(paramVector, 6, -1), m.GetDataHist(6, -1), paramVector, 6, -1);
+    pf.PlotAll(m.GetMCHist(paramVector, 40, -1),40, -1);
+    pf.PlotROI(m.GetMCHist_Isotope(paramVector, 6, -1), 5, -1);
 
     std::vector<string> fitParamName = m.GetFittedRateParameter();
     for (int i=0;i<fitParamName.size();i++) {
