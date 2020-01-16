@@ -309,7 +309,7 @@ bool Parameter::EditParameter(string name) {
         tagging.push_back(false);
         tagging.push_back(true);
         theta.push_back(k);
-        theta.push_back(-1);
+        theta.push_back(k);
 
         // if(_FitParameters[i].find("Rate_U238_S2_film_")!=string::npos){
         // string par_str = _FitParameters[i];
@@ -381,7 +381,7 @@ bool Parameter::EditParameter(string name) {
         basename.push_back("Tl208m_film");
         tagging.push_back(true);
         tagging.push_back(false);
-        theta.push_back(-1);
+        theta.push_back(k);
         theta.push_back(k);
         // if(_FitParameters[i].find("Rate_Th232_S2_film_")!=string::npos){
         // string par_str = _FitParameters[i];
