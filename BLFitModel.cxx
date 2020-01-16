@@ -105,7 +105,7 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
                 mapName = "Other";
             }
             if (MCMap.find(mapName) == MCMap.end()) {
-                MCMap[mapName] = Data->GetEmptyHistogram();
+                MCMap[mapName] = Data->GetEmptyHistogram(mapName);
             }
             for(int i=0; i<_NofEnergyBin; i++) {
                 double E_Mean  = _EnergyMin + _EnergyBinWidth * double(i+0.5);//Bin Center
@@ -124,7 +124,8 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist(std::vector<double>& pars, in
 }
 
 //This displays every single isotope instead of grouping them up.
-std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, int rbin, int thetabin) {
+std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& pars, std::vector<string>& invesitgate, int rbin, int thetabin) {
+
 
     Parameter* currentEnergyResponse = ERes->setupEnergyResponse(fParameterInfoMap["energy_response_info"], pars);
     std::map<std::string, TH3D*> MCMap;
@@ -133,15 +134,18 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
         if (fParameterInfoMap.find(fitParameterVec[j]) != fParameterInfoMap.end()) {
             string histName = fitParameterVec[j];
             currentFitParameter = Param->GetFitParameter(histName);
-            if ((currentFitParameter->isFixed()) && currentFitParameter->GetD("initial") == 0) continue;
-            string rateString = "Rate_";
-            string XeLSString = "_XeLS";
-            string mapName = histName;
-            mapName.erase(mapName.find(rateString), rateString.length());
-            mapName.erase(mapName.find(XeLSString), XeLSString.length());
-            if (MCMap.find(mapName) == MCMap.end()) {
-                MCMap[mapName] = Data->GetEmptyHistogram();
+            // if ((currentFitParameter->isFixed()) && currentFitParameter->GetD("initial") == 0) continue;
+
+            string mapName = "Other";
+            for (int ivindex=0; ivindex<invesitgate.size(); ivindex++) {
+                if (invesitgate[ivindex] == histName) mapName=histName;
             }
+
+            //Initialize mapname TH1D
+            if (MCMap.find(mapName) == MCMap.end()) {
+                MCMap[mapName] = Data->GetEmptyHistogram(mapName);
+            }
+
             for(int i=0; i<_NofEnergyBin; i++) {
                 double E_Mean  = _EnergyMin + _EnergyBinWidth * double(i+0.5);//Bin Center
                 double E_Lower = _EnergyMin + _EnergyBinWidth * double(i+0.0);//Bin Lower Edge
@@ -170,11 +174,12 @@ TH3D* BLFitModel::GetDataHist(int rbin, int thetabin) {
         xbins[nbinx+1] = _EnergyMin + _EnergyBinWidth * double(n+1.0);
         nbinx++;
     }
-    TH1D* dataHist = Data->GetEmptyHistogram("h_data");
+    TH3D* dataHist = Data->GetEmptyHistogram("h_data");
     for(int i=0; i<_NofEnergyBin; i++) {
         for(int n=0; n < Data->GetFVParameter()->GetI("total_bin"); n++) {
             int n1 = n / Data->GetFVParameter()->GetI("theta_bin");
             int n2 = n % Data->GetFVParameter()->GetI("theta_bin");
+
             double binvalue = 0.0;
             if (fakeData) {
                 binvalue += _Data_fake[n][i];
