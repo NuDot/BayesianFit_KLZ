@@ -558,18 +558,18 @@ int main()
     m.PrintCorrelationMatrix(m.GetSafeName() + "_correlationMatrix.pdf");
     m.PrintKnowledgeUpdatePlots(m.GetSafeName() + "_update.pdf");
     m.PrintAllMarginalized(m.GetSafeName() + "_param.pdf");
-    std::vector<double> paramVector = m.GetBestFitParameters();
+    // std::vector<double> paramVector = m.GetBestFitParameters();
 
-    for (int i=4;i<=11;i++) {
-        for(int j=-1;j<=1;j++) {
-            plot(m.GetMCHist(paramVector, i,j), m.GetDataHist(i,j), paramVector, i, j);
-        }
-    }
+    // for (int i=4;i<=11;i++) {
+    //     for(int j=-1;j<=1;j++) {
+    //         plot(m.GetMCHist(paramVector, i,j), m.GetDataHist(i,j), paramVector, i, j);
+    //     }
+    // }
 
-    plot(m.GetMCHist(paramVector, 40, -1), m.GetDataHist(40, -1), paramVector, 40, -1);
-    plot_zoom(m.GetMCHist(paramVector, 6, -1), m.GetDataHist(6, -1), paramVector, 6, -1);
+    // plot(m.GetMCHist(paramVector, 40, -1), m.GetDataHist(40, -1), paramVector, 40, -1);
+    // plot_zoom(m.GetMCHist(paramVector, 6, -1), m.GetDataHist(6, -1), paramVector, 6, -1);
 
-    for(int i=0;i<m.GetInitialPosition().size();i++) cout<<m.GetBestFitParameters()[i]<<",";
+    // for(int i=0;i<m.GetInitialPosition().size();i++) cout<<m.GetBestFitParameters()[i]<<",";
 
 
 
