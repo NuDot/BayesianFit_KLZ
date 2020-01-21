@@ -519,61 +519,81 @@ int main()
         cout<<"Parameter not fixed to 0"<<endl;
     }
 
-    TFile f1("KLZ_data.root", "RECREATE");
-    m.GetDataHist->Write()
-    f1->Close();
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // TFile f1("KLZ_data.root", "RECREATE");
+    // m.GetDataHist()->Write();
+    // double src[] = {2.1,109159,2413.51,1.99999,137.215,1242.57,24566.9,59474.2,1029.57,0.629182,0.8,0.722637,4.5,3.14471e-07,4.4455,0.000491212,7.21532,24.4762,15.7143,174.829,2.81805e-09,2650.04,2507.85,0,0,0,0,0,0,0,0,0,0,0,0,0,0.0128184,2.9045,0.139891,0,4.5,188.924,11.3052,1366.44,2806.68,9663.37,12917.1,841.181,0.768671,3.4e+07,0.323,0.037,1.01568,0.289931,0.024997,1.01476,0.405408,0.0135369,1};
 
-    // // m.PrepareToContinueMarginalization("chain_long.root", "BLFit_mcmc", "BLFit_parameters", false, true);
+    // std::vector<double> dest;
+    // std::vector<string> temp;
 
-    // m.WriteMarkovChain("chain_long.root", "RECREATE");
+    // for (int i=0; i<sizeof(src); i++) {
+    //     dest.push_back(src[i]);
+    // }
 
-    // m.SetNIterationsRun(30000);
-    // m.SetNIterationsPreRunCheck(200);
-    // m.SetInitialPositions(m.GetInitialPosition());
-    // m.SetProposeMultivariate(true);
+    // std::map<string, TH3D*>::iterator it;
+    // std::map<std::string, TH3D*> MCMap_all = m.GetMCHist_Isotope(dest, temp);
+    // for ( it = MCMap_all.begin(); it != MCMap_all.end(); it++ )
+    // {
+    //     string mapName = it->first;
 
-    // m.SetNIterationsPreRunMin(20000);
-    // m.SetNIterationsPreRunMax(30000);
+    //     cout<<mapName<<endl;
+    //     it->second->Write();
+    // }
+    // f1.Close();
 
-    // m.MarginalizeAll(BCIntegrate::kMargMetropolis);
-    // m.WriteMarginalizedDistributions("chain_long.root", "UPDATE");
-
-    // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // m.PrepareToContinueMarginalization("chain_long.root", "BLFit_mcmc", "BLFit_parameters", false, true);
 
-    // // find the new mode
-    // m.SetOptimizationMethod(BCIntegrate::kOptSimAnn);
-    // m.SetSASchedule(BCIntegrate::kSABoltzmann);
-    // //m.SetSATmin();
-    // m.FindMode(m.GetBestFitParameters());
-    // m.SetOptimizationMethod(BCIntegrate::kOptMinuit);
-    // m.FindMode(m.GetBestFitParameters());
+    m.WriteMarkovChain("chain_long.root", "RECREATE");
 
-    // m.WriteMarkovChain("chain_long.root", "UPDATE");
-    // m.WriteMarginalizedDistributions("chain_long.root", "UPDATE");
+    m.SetNIterationsRun(30000);
+    m.SetNIterationsPreRunCheck(200);
+    m.SetInitialPositions(m.GetInitialPosition());
+    m.SetProposeMultivariate(true);
+
+    m.SetNIterationsPreRunMin(20000);
+    m.SetNIterationsPreRunMax(30000);
+
+    m.MarginalizeAll(BCIntegrate::kMargMetropolis);
+    m.WriteMarginalizedDistributions("chain_long.root", "UPDATE");
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    m.PrepareToContinueMarginalization("chain_long.root", "BLFit_mcmc", "BLFit_parameters", false, true);
+
+    // find the new mode
+    m.SetOptimizationMethod(BCIntegrate::kOptSimAnn);
+    m.SetSASchedule(BCIntegrate::kSABoltzmann);
+    //m.SetSATmin();
+    m.FindMode(m.GetBestFitParameters());
+    m.SetOptimizationMethod(BCIntegrate::kOptMinuit);
+    m.FindMode(m.GetBestFitParameters());
+
+    m.WriteMarkovChain("chain_long.root", "UPDATE");
+    m.WriteMarginalizedDistributions("chain_long.root", "UPDATE");
 
 
-    // m.PrintSummary();
-    // m.PrintParameterPlot(m.GetSafeName() + "_parameters.pdf");
-    // m.PrintCorrelationPlot(m.GetSafeName() + "_correlation.pdf");
-    // m.PrintCorrelationMatrix(m.GetSafeName() + "_correlationMatrix.pdf");
-    // m.PrintKnowledgeUpdatePlots(m.GetSafeName() + "_update.pdf");
-    // m.PrintAllMarginalized(m.GetSafeName() + "_param.pdf");
-    // // std::vector<double> paramVector = m.GetBestFitParameters();
+    m.PrintSummary();
+    m.PrintParameterPlot(m.GetSafeName() + "_parameters.pdf");
+    m.PrintCorrelationPlot(m.GetSafeName() + "_correlation.pdf");
+    m.PrintCorrelationMatrix(m.GetSafeName() + "_correlationMatrix.pdf");
+    m.PrintKnowledgeUpdatePlots(m.GetSafeName() + "_update.pdf");
+    m.PrintAllMarginalized(m.GetSafeName() + "_param.pdf");
+    // std::vector<double> paramVector = m.GetBestFitParameters();
 
-    // // for (int i=4;i<=11;i++) {
-    // //     for(int j=-1;j<=1;j++) {
-    // //         plot(m.GetMCHist(paramVector, i,j), m.GetDataHist(i,j), paramVector, i, j);
-    // //     }
-    // // }
+    // for (int i=4;i<=11;i++) {
+    //     for(int j=-1;j<=1;j++) {
+    //         plot(m.GetMCHist(paramVector, i,j), m.GetDataHist(i,j), paramVector, i, j);
+    //     }
+    // }
 
-    // // plot(m.GetMCHist(paramVector, 40, -1), m.GetDataHist(40, -1), paramVector, 40, -1);
-    // // plot_zoom(m.GetMCHist(paramVector, 6, -1), m.GetDataHist(6, -1), paramVector, 6, -1);
+    // plot(m.GetMCHist(paramVector, 40, -1), m.GetDataHist(40, -1), paramVector, 40, -1);
+    // plot_zoom(m.GetMCHist(paramVector, 6, -1), m.GetDataHist(6, -1), paramVector, 6, -1);
 
-    // // for(int i=0;i<m.GetInitialPosition().size();i++) cout<<m.GetBestFitParameters()[i]<<",";
+    // for(int i=0;i<m.GetInitialPosition().size();i++) cout<<m.GetBestFitParameters()[i]<<",";
 
 
 

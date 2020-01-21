@@ -137,8 +137,10 @@ std::map<std::string, TH3D*> BLFitModel::GetMCHist_Isotope(std::vector<double>& 
             // if ((currentFitParameter->isFixed()) && currentFitParameter->GetD("initial") == 0) continue;
 
             string mapName = "Other";
+            if (invesitgate.size() == 0) mapName=histName;
             for (int ivindex=0; ivindex<invesitgate.size(); ivindex++) {
                 if (invesitgate[ivindex] == histName) mapName=histName;
+
             }
 
             //Initialize mapname TH1D
