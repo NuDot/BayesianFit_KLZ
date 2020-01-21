@@ -123,44 +123,44 @@ bool EnergyResponse::ReadEnergyResponse() {
 
         //Skip some of the background events
         // temporary
-        if(_FitParameters[i]=="Rate_Xe134_2nu_XeLS") continue;
-        if(_FitParameters[i]=="Rate_Po210_XeLS") continue;
-        if(_FitParameters[i]=="Rate_Ar39_XeLS") continue;
-        if(_FitParameters[i]=="Rate_C14_XeLS") continue;
-        if(_FitParameters[i]=="Rate_Po210_film") continue;
-        if(_FitParameters[i]=="Rate_Li8_Spallation") continue; // tentative
-        if(_FitParameters[i]=="Rate_ShortLived_Spallation") continue;
-        if(_FitParameters[i]=="Rate_Monochromatic") continue;
-        if(_FitParameters[i]=="Rate_U238_S1_film") continue;
-        if(_FitParameters[i]=="Rate_U238_S2_film") continue;
-        if(_FitParameters[i].find("Rate_U238_S2_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Th232_S1_film") continue;
-        if(_FitParameters[i]=="Rate_Th232_S2_film") continue;
-        if(_FitParameters[i].find("Rate_Th232_S2_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_K40_film") continue;
-        if(_FitParameters[i].find("Rate_K40_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Bi210_film") continue;
-        if(_FitParameters[i].find("Rate_Bi210_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Cs137_film") continue;
-        if(_FitParameters[i].find("Rate_Cs137_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Cs134_film") continue;
-        if(_FitParameters[i].find("Rate_Cs134_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Bi208_film") continue;
-        if(_FitParameters[i]=="Rate_Co60_film") continue;
-        if(_FitParameters[i]=="Rate_Y88_film") continue;
-        if(_FitParameters[i]=="Rate_Ag110_film") continue;
-        //  if(_FitParameters[i]=="Rate_SolarNu_XeLS") continue;
-        if(_FitParameters[i]=="Rate_SolarNu_KamLS") continue;
-        if(_FitParameters[i].find("Rate_Ag110_film_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_U238_S2_KamLS") continue;
-        if(_FitParameters[i]=="Rate_Th232_S2_KamLS") continue;
-        if(_FitParameters[i]=="Rate_K40_KamLS") continue;
-        if(_FitParameters[i].find("Rate_K40_KamLS_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Bi210_KamLS") continue;
-        if(_FitParameters[i].find("Rate_Bi210_KamLS_")!=string::npos) continue;    
-        if(_FitParameters[i]=="Rate_Kr85_KamLS") continue;
-        if(_FitParameters[i]=="Rate_C10_KamLS") continue;
-        if(_FitParameters[i]=="Rate_C11_KamLS") continue;   
+        if(orderedRateName[i]=="Rate_Xe134_2nu_XeLS") continue;
+        if(orderedRateName[i]=="Rate_Po210_XeLS") continue;
+        if(orderedRateName[i]=="Rate_Ar39_XeLS") continue;
+        if(orderedRateName[i]=="Rate_C14_XeLS") continue;
+        if(orderedRateName[i]=="Rate_Po210_film") continue;
+        if(orderedRateName[i]=="Rate_Li8_Spallation") continue; // tentative
+        if(orderedRateName[i]=="Rate_ShortLived_Spallation") continue;
+        if(orderedRateName[i]=="Rate_Monochromatic") continue;
+        if(orderedRateName[i]=="Rate_U238_S1_film") continue;
+        if(orderedRateName[i]=="Rate_U238_S2_film") continue;
+        if(orderedRateName[i].find("Rate_U238_S2_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Th232_S1_film") continue;
+        if(orderedRateName[i]=="Rate_Th232_S2_film") continue;
+        if(orderedRateName[i].find("Rate_Th232_S2_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_K40_film") continue;
+        if(orderedRateName[i].find("Rate_K40_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Bi210_film") continue;
+        if(orderedRateName[i].find("Rate_Bi210_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Cs137_film") continue;
+        if(orderedRateName[i].find("Rate_Cs137_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Cs134_film") continue;
+        if(orderedRateName[i].find("Rate_Cs134_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Bi208_film") continue;
+        if(orderedRateName[i]=="Rate_Co60_film") continue;
+        if(orderedRateName[i]=="Rate_Y88_film") continue;
+        if(orderedRateName[i]=="Rate_Ag110_film") continue;
+        //  if(orderedRateName[i]=="Rate_SolarNu_XeLS") continue;
+        if(orderedRateName[i]=="Rate_SolarNu_KamLS") continue;
+        if(orderedRateName[i].find("Rate_Ag110_film_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_U238_S2_KamLS") continue;
+        if(orderedRateName[i]=="Rate_Th232_S2_KamLS") continue;
+        if(orderedRateName[i]=="Rate_K40_KamLS") continue;
+        if(orderedRateName[i].find("Rate_K40_KamLS_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Bi210_KamLS") continue;
+        if(orderedRateName[i].find("Rate_Bi210_KamLS_")!=string::npos) continue;    
+        if(orderedRateName[i]=="Rate_Kr85_KamLS") continue;
+        if(orderedRateName[i]=="Rate_C10_KamLS") continue;
+        if(orderedRateName[i]=="Rate_C11_KamLS") continue;   
 
         //Assign i_ES, which is used later to set up energy response
         //The purpose of i_ES_isotope is to group isotopes together
