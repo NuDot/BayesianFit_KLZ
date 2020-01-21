@@ -82,8 +82,10 @@ bool Parameter::EditParameter(string name) {
         //    }
     }else if(name=="Rate_Th232_S2_XeLS") {
         basename.push_back("Bi212m_XeLS");
+        basename.push_back("Pileup_XeLS");
         basename.push_back("Tl208m_XeLS");
         tagging.push_back(true);
+        tagging.push_back(true);//Ratio:Bi214m
         tagging.push_back(false);
         // if(_FitParameters[i]=="Rate_Th232_S2_XeLS"){
         // N=0;
@@ -96,9 +98,6 @@ bool Parameter::EditParameter(string name) {
         // }
         // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
         // }
-    }else if(name=="Rate_Pileup_XeLS") {
-        basename.push_back("Pileup_XeLS");
-        tagging.push_back(true);//Ratio:Bi214m
     }else if(name=="Rate_K40_XeLS") {
         basename.push_back("K40p_XeLS");
         basename.push_back("K40m_XeLS");
@@ -342,21 +341,11 @@ bool Parameter::EditParameter(string name) {
         // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
     }else if(name=="Rate_Th232_S2_film") {
         basename.push_back("Bi212m_film");
+        basename.push_back("Pileup_film");
         basename.push_back("Tl208m_film");
         tagging.push_back(true);
-        tagging.push_back(false);
-        // N=0;
-        // for(int j=0;j<_nbin;j++){
-        //     x[N] = _min + _bin_width * double(j+0.5);
-        //     y[N] = (TaggingEfficiency_Bi212m_film * Ratio_Bi212m_film * h_Bi212m_film->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Bi212m_film) / _bin_width)  
-        //          + (TaggingEfficiency_Pileup_film * Ratio_Bi212m_film * h_Pileup_film->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Pileup_film) / _bin_width) 
-        //          + (Ratio_Tl208m_film * h_Tl208m_film->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Tl208m_film) / _bin_width);
-        //     N++;
-        // }
-        // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
-    }else if(name=="Rate_Pileup_film") {
-        basename.push_back("Pileup_film");
         tagging.push_back(true);
+        tagging.push_back(false);
         // N=0;
         // for(int j=0;j<_nbin;j++){
         //     x[N] = _min + _bin_width * double(j+0.5);
@@ -378,78 +367,17 @@ bool Parameter::EditParameter(string name) {
         }
 
         basename.push_back("Bi212m_film");
+        basename.push_back("Pileup_film");
         basename.push_back("Tl208m_film");
+        tagging.push_back(true);
         tagging.push_back(true);
         tagging.push_back(false);
         theta.push_back(k);
         theta.push_back(k);
-        // if(_FitParameters[i].find("Rate_Th232_S2_film_")!=string::npos){
-        // string par_str = _FitParameters[i];
-        // string target_str = "Rate_Th232_S2_film_";
-        // par_str.erase(0, target_str.length());
-        // int k = atoi(par_str.c_str());
-
-        // if(k<0 || k>=thetaBin){
-        //     cerr << "ERROR : FitParameters format error (out of range) --> " << k << endl;
-        //     return false;
-        // }
-
-        // N=0;
-        // for(int j=0;j<_nbin;j++){
-        //     x[N] = _min + _bin_width * double(j+0.5);
-        //     y[N] = (TaggingEfficiency_Bi212m_film * Ratio_Bi212m_film * h_Bi212m_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Bi212m_film) / _bin_width)
-        //  + (Ratio_Tl208m_film * h_Tl208m_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Tl208m_film) / _bin_width);
-        //     N++;
-        // }
-        // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
-        // }
-    }else if(name.find("Rate_Pileup_film_")!=string::npos) {
-        string par_str = name;
-        string target_str = "Rate_Pileup_film_";
-        par_str.erase(0, target_str.length());
-        int k = atoi(par_str.c_str());
-
-        if(k<0 || k>=thetaBin) {
-            cerr << "ERROR : FitParameters format error (out of range) --> " << k << endl;
-            return false;
-        }
-
-        basename.push_back("Pileup_film");
-        tagging.push_back(true);
         theta.push_back(k);
-        // if(_FitParameters[i].find("Rate_Th232_S2_film_")!=string::npos){
-        // string par_str = _FitParameters[i];
-        // string target_str = "Rate_Th232_S2_film_";
-        // par_str.erase(0, target_str.length());
-        // int k = atoi(par_str.c_str());
-
-        // if(k<0 || k>=thetaBin){
-        //     cerr << "ERROR : FitParameters format error (out of range) --> " << k << endl;
-        //     return false;
-        // }
-
-        // N=0;
-        // for(int j=0;j<_nbin;j++){
-        //     x[N] = _min + _bin_width * double(j+0.5);
-        //     y[N] = (TaggingEfficiency_Bi212m_film * Ratio_Bi212m_film * h_Bi212m_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Bi212m_film) / _bin_width)
-        //  + (Ratio_Tl208m_film * h_Tl208m_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_Tl208m_film) / _bin_width);
-        //     N++;
-        // }
-        // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
-        // }
     }else if(name=="Rate_K40_film") {
         basename.push_back("K40p_film");
         basename.push_back("K40m_film");
-        // if(_FitParameters[i]=="Rate_K40_film"){
-        // N=0;
-        // for(int j=0;j<_nbin;j++){
-        //     x[N] = _min + _bin_width * double(j+0.5);
-        //     y[N] = (Ratio_K40p_film * h_K40p_film->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_K40p_film) / _bin_width) 
-        //  + (Ratio_K40m_film * h_K40m_film->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_K40m_film) / _bin_width);
-        //     N++;
-        // }
-        // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
-        // }
     }else if(name.find("Rate_K40_film_")!=string::npos) {
         string par_str = name;
         string target_str = "Rate_K40_film_";
@@ -464,27 +392,6 @@ bool Parameter::EditParameter(string name) {
         basename.push_back("K40m_film");
         theta.push_back(k);
         theta.push_back(k);
-
-        // if(_FitParameters[i].find("Rate_K40_film_")!=string::npos){
-        // string par_str = _FitParameters[i];
-        // string target_str = "Rate_K40_film_";
-        // par_str.erase(0, target_str.length());
-        // int k = atoi(par_str.c_str());
-
-        // if(k<0 || k>=thetaBin){
-        //     cerr << "ERROR : FitParameters format error (out of range) --> " << k << endl;
-        //     return false;
-        // }
-
-        // N=0;
-        // for(int j=0;j<_nbin;j++){
-        //     x[N] = _min + _bin_width * double(j+0.5);
-        //     y[N] = (Ratio_K40p_film * h_K40p_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_K40p_film) / _bin_width) + 
-        //            (Ratio_K40m_film * h_K40m_film_k[k]->GetBinContent(j+1, n1+1, n2+1) / double(GenerateEvent_K40m_film) / _bin_width);
-        //     N++;
-        // }
-        // _Spectrum_MC[n][i] = new kuFUNC(N,x,y);
-        // }
     }else if(name=="Rate_Bi210_film") {
         basename.push_back("Bi210m_film");
         // if(_FitParameters[i]=="Rate_Bi210_film"){
