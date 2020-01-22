@@ -127,7 +127,6 @@ bool EnergyResponse::ReadEnergyResponse() {
         if(orderedRateName[i]=="Rate_Po210_XeLS") continue;
         if(orderedRateName[i]=="Rate_Ar39_XeLS") continue;
         if(orderedRateName[i]=="Rate_C14_XeLS") continue;
-        if(orderedRateName[i]=="Rate_Pileup_XeLS") continue;
         if(orderedRateName[i]=="Rate_Po210_film") continue;
         if(orderedRateName[i]=="Rate_Li8_Spallation") continue; // tentative
         if(orderedRateName[i]=="Rate_ShortLived_Spallation") continue;
@@ -137,9 +136,7 @@ bool EnergyResponse::ReadEnergyResponse() {
         if(orderedRateName[i].find("Rate_U238_S2_film_")!=string::npos) continue;    
         if(orderedRateName[i]=="Rate_Th232_S1_film") continue;
         if(orderedRateName[i]=="Rate_Th232_S2_film") continue;
-        if(orderedRateName[i].find("Rate_Th232_S2_film_")!=string::npos) continue;
-        if(orderedRateName[i]=="Rate_Pileup_film") continue;
-        if(orderedRateName[i].find("Rate_Pileup_film_")!=string::npos) continue;     
+        if(orderedRateName[i].find("Rate_Th232_S2_film_")!=string::npos) continue;    
         if(orderedRateName[i]=="Rate_K40_film") continue;
         if(orderedRateName[i].find("Rate_K40_film_")!=string::npos) continue;    
         if(orderedRateName[i]=="Rate_Bi210_film") continue;
@@ -163,7 +160,7 @@ bool EnergyResponse::ReadEnergyResponse() {
         if(orderedRateName[i].find("Rate_Bi210_KamLS_")!=string::npos) continue;    
         if(orderedRateName[i]=="Rate_Kr85_KamLS") continue;
         if(orderedRateName[i]=="Rate_C10_KamLS") continue;
-        if(orderedRateName[i]=="Rate_C11_KamLS") continue;
+        if(orderedRateName[i]=="Rate_C11_KamLS") continue;   
 
         //Assign i_ES, which is used later to set up energy response
         //The purpose of i_ES_isotope is to group isotopes together

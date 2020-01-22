@@ -42,8 +42,10 @@ int main()
 
     std::vector<double> paramVector = dest;
     std::vector<string> investigate_bkg;
-    investigate_bkg.push_back("Rate_U238_S2_film_0");
-    investigate_bkg.push_back("Rate_U238_S2_film_1");
+    investigate_bkg.push_back("Rate_He6_Spallation");
+    investigate_bkg.push_back("Rate_B12_Spallation");
+    investigate_bkg.push_back("Rate_Li8_Spallation");
+
 
 
     PlotFactory * pf = new PlotFactory(m.GetMCHist(paramVector), m.GetDataHist(), paramVector, m.GetTotalBin(), m.GetThetaBin());
